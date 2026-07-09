@@ -1,0 +1,245 @@
+/**
+ * styles_v2.css — visual refinements layered on top of styles.css
+ * Changes:
+ *   1. Font scale +1 throughout (body 17 px, headings up one step)
+ *   2. Muted color darkened for better readability
+ *   3. Metric labels/values enlarged
+ *   4. Viewer-pair accent borders to distinguish LAS ↔ CHM
+ *   5. New .eval-summary-table for compact model comparison
+ */
+
+/* ── Root token overrides ────────────────────────────────── */
+:root {
+  --muted: #4a5e55;       /* was #65756d — 20 % darker for legibility  */
+  --panel: #ffffff;
+  --bg: #f3f5f2;          /* very slightly cooler for more contrast     */
+  --shadow: 0 16px 40px rgba(14,28,22,.10);
+}
+
+/* ── Global font scale ───────────────────────────────────── */
+body {
+  font-size: 17px;        /* browser default 16 px → 17 px              */
+}
+
+h1 { font-size: 32px; margin: 6px 0 0; }
+h2 { font-size: 28px; margin: 0 0 12px; }
+h3 { font-size: 19px; margin: 0 0 10px; }
+p  { font-size: 15px; line-height: 1.62; color: var(--muted); }
+
+/* ── Navigation ──────────────────────────────────────────── */
+.brand-title    { font-size: 25px; }
+.brand-subtitle { font-size: 14px; color: var(--muted); }
+.brand-kicker   { font-size: 11px; }
+.side-nav       { gap: 18px; }
+.route-nav      { gap: 8px; }
+
+.nav-link       { font-size: 15px; gap: 10px; padding: 10px 11px; }
+.nav-title      { font-size: 15px; font-weight: 800; line-height: 1.25; }
+.nav-subtitle   { font-size: 13px; color: var(--muted); line-height: 1.4; }
+.nav-index      { font-size: 13px; }
+
+/* ── Topbar & headings ───────────────────────────────────── */
+.route-eyebrow  { font-size: 12px; letter-spacing: .09em; }
+.topbar         { min-height: 106px; padding: 26px 34px 20px; }
+
+/* ── Module host ─────────────────────────────────────────── */
+.module-host    { padding: 30px 34px 60px; }
+
+/* ── Panel bodies ────────────────────────────────────────── */
+.panel.pad { padding: 22px; }
+
+/* Intro paragraphs: full width + justified text (overrides max-width:78ch in base CSS) */
+.intro {
+  font-size: 18px;
+  line-height: 1.6;
+  color: #2d3f37;
+  max-width: 100%;          /* remove the 78ch cap so text fills the panel  */
+  text-align: justify;      /* left-right justified                          */
+  hyphens: auto;            /* allow soft hyphenation at word breaks         */
+  -webkit-hyphens: auto;
+}
+.card-body      { font-size: 15px; line-height: 1.58; color: var(--muted); }
+.card-title     { font-size: 20px; font-weight: 800; }
+.card-kicker    { font-size: 12px; }
+.card-action    { font-size: 14px; }
+
+/* ── Controls ────────────────────────────────────────────── */
+.control-title { font-size: 14px; margin-bottom: 12px; }
+label.check    { font-size: 14px; gap: 9px; margin: 9px 0; }
+.control-group { padding: 14px; gap: 0; }
+
+input[type="range"] { height: 5px; }
+
+.segmented button, .btn { font-size: 14px; padding: 9px 12px; }
+
+/* ── Metrics ─────────────────────────────────────────────── */
+.metric-val { font-size: 23px; font-weight: 800; margin-top: 3px; }
+.metric-key { font-size: 12px; letter-spacing: .06em; }
+.metric     { padding: 11px 13px; }
+.metric-band{ padding: 9px 12px; font-size: 13px; }
+.metric-grid{ gap: 10px; }
+
+/* ── Status bar ──────────────────────────────────────────── */
+.status { font-size: 14px; padding: 12px 14px; line-height: 1.5; }
+
+/* ── Tables ──────────────────────────────────────────────── */
+.info-table { font-size: 14px; }
+.info-table th, .info-table td { padding: 12px 13px; }
+
+/* ── Lesson list ─────────────────────────────────────────── */
+.lesson-list   { gap: 16px; }
+.lesson-row    { gap: 20px; padding-top: 16px; font-size: 14px; }
+.lesson-row span { color: #36473e; line-height: 1.6; }
+.lesson-row b  { color: #0d4a36; }
+
+/* ── Callout ─────────────────────────────────────────────── */
+.callout {
+  font-size: 14px;
+  line-height: 1.65;
+  padding: 14px 18px;
+  border-left-width: 5px;
+}
+
+/* ── Chip / micro-label ──────────────────────────────────── */
+.chip        { font-size: 11px; padding: 5px 9px; }
+.micro-label { font-size: 11px; }
+.viewer-title{ font-size: 14px; font-weight: 800; }
+.viewer-head { padding: 11px 14px; }
+.viewer canvas{ cursor: crosshair; }
+
+/* ── Side-note ───────────────────────────────────────────── */
+.side-note { font-size: 13px; line-height: 1.65; }
+
+/* ── Pipeline steps ──────────────────────────────────────── */
+.pipeline-step p { font-size: 13px; line-height: 1.5; margin: 8px 0 0; }
+.pipeline-step b { font-size: 14px; }
+
+/* ── Overview route bar ──────────────────────────────────── */
+.overview-route a { padding: 13px; }
+.overview-route b { font-size: 14px; margin-bottom: 7px; }
+.overview-route span { font-size: 13px; line-height: 1.5; }
+
+/* ═══════════════════════════════════════════════════════════
+   03  DATA EXPLORER — viewer-pair accent styling
+   ══════════════════════════════════════════════════════════ */
+
+/* Accent border + label colour for each viewer type */
+.viewer.las-viewer {
+  border-top: 3px solid #54b99a;  /* teal = point data                  */
+}
+.viewer.chm-viewer {
+  border-top: 3px solid #2f8a69;  /* forest green = raster / derived    */
+}
+
+/* Larger viewer-head label inside the two data canvases */
+.las-viewer  .viewer-title { color: #54b99a; }
+.chm-viewer  .viewer-title { color: #2f8a69; }
+
+/* Role tag appended inside viewer-head */
+.viewer-role {
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 10px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 2px 6px;
+}
+
+/* Bridge connector row between the two canvases */
+.canvas-bridge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+.canvas-bridge::before,
+.canvas-bridge::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+.canvas-bridge-label {
+  white-space: nowrap;
+  font-family: ui-monospace, monospace;
+  font-size: 11px;
+  letter-spacing: .08em;
+  color: var(--green);
+  font-weight: 700;
+}
+
+/* Distinguish profile canvas area */
+.profile-section {
+  border-top: 1px solid var(--line);
+  margin-top: 14px;
+  padding-top: 14px;
+}
+.profile-section .control-title { margin-bottom: 8px; }
+
+/* ═══════════════════════════════════════════════════════════
+   07  EVALUATION LAB — compact model summary table
+   ══════════════════════════════════════════════════════════ */
+
+.eval-summary-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+.eval-summary-table th,
+.eval-summary-table td {
+  border-bottom: 1px solid var(--line);
+  padding: 11px 12px;
+  text-align: left;
+  vertical-align: middle;
+}
+.eval-summary-table th { background: #f2f5f2; color: #1a2e24; font-size: 13px; }
+.eval-summary-table td.model-name { font-weight: 800; font-size: 14px; }
+.eval-summary-table .f1-val {
+  font-size: 18px;
+  font-weight: 800;
+  color: var(--green);
+}
+.eval-summary-table .prev-score {
+  font-size: 11px;
+  color: var(--muted);
+  display: block;
+  margin-top: 2px;
+}
+.eval-model-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 7px;
+  vertical-align: middle;
+}
+
+/* Slim eval toolbar */
+.eval-toolbar-slim {
+  display: grid;
+  gap: 14px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   Error table colours
+   ══════════════════════════════════════════════════════════ */
+.error-val-tp { color: #1a5c42; font-weight: 700; }
+.error-val-fp { color: #c95f27; font-weight: 700; }
+.error-val-fn { color: #9d4a3b; font-weight: 700; }
+
+/* ═══════════════════════════════════════════════════════════
+   Responsive overrides
+   ══════════════════════════════════════════════════════════ */
+@media (max-width: 1100px) {
+  .app-shell { grid-template-columns: 280px minmax(0, 1fr); }
+}
+@media (max-width: 980px) {
+  .module-host { padding: 20px 18px 48px; }
+  h1 { font-size: 26px; }
+  h2 { font-size: 22px; }
+}
