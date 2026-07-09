@@ -1,0 +1,109 @@
+{
+  "title": "CrownLab-ITC Airborne LiDAR Prototype",
+  "purpose": "First-step browser prototype for teaching ITC detection and delineation principles with paired CHM and LAS data.",
+  "source_metadata": {
+    "name": "itc_teaching_area_75m",
+    "purpose": "Open-source, non-commercial teaching subset for ITC detection and delineation using paired CHM and LAS data.",
+    "source_files": {
+      "chm": "D:\\ITC\\ITC_project\\ITC_project\\data\\CHM_train_val.tif",
+      "las": "D:\\ITC\\data\\090810_184902.las",
+      "reference_crowns": "D:\\ITC\\ITC_project\\ITC_project\\data\\ITC_train_val.shp"
+    },
+    "crs": "EPSG:32616",
+    "bbox": {
+      "xmin": 774176.5,
+      "ymin": 5162899.18,
+      "xmax": 774251.5,
+      "ymax": 5162974.18
+    },
+    "chm": {
+      "path": "D:\\ITC\\Paper\\execution\\teaching_study_area_20260704\\itc_teaching_area_CHM_75m.tif",
+      "width_px": 500,
+      "height_px": 500,
+      "resolution_m": 0.15,
+      "min_height_m": 0.0,
+      "max_height_m": 26.0,
+      "mean_canopy_height_m": 11.807938575744629,
+      "p95_canopy_height_m": 21.0
+    },
+    "las": {
+      "path": "D:\\ITC\\Paper\\execution\\teaching_study_area_20260704\\itc_teaching_area_LAS_75m.las",
+      "point_count": 256724,
+      "source_point_count": 6818606,
+      "density_points_per_m2": 45.63982222222222,
+      "mins": [
+        774176.5,
+        5162899.18,
+        304.34
+      ],
+      "maxs": [
+        774251.5,
+        5162974.18,
+        330.81
+      ],
+      "crs": "EPSG:32616"
+    },
+    "reference": {
+      "reference_path": "D:\\ITC\\Paper\\execution\\teaching_study_area_20260704\\itc_teaching_area_reference_crowns.gpkg",
+      "extent_path": "D:\\ITC\\Paper\\execution\\teaching_study_area_20260704\\itc_teaching_area_extent.gpkg",
+      "crowns_intersecting": 283,
+      "crowns_centroid_inside": 270,
+      "crowns_partial_at_boundary": 23,
+      "small_crowns_lt_3_14m2_centroid_inside": 68,
+      "large_crowns_gt_50m2_centroid_inside": 4
+    }
+  },
+  "chm": {
+    "width": 500,
+    "height": 500,
+    "crs": "EPSG:32616",
+    "bounds": {
+      "xmin": 774176.5,
+      "ymin": 5162899.18,
+      "xmax": 774251.5,
+      "ymax": 5162974.18
+    },
+    "transform": [
+      0.15000000000001185,
+      0.0,
+      774176.5,
+      0.0,
+      -0.15,
+      5162974.18,
+      0.0,
+      0.0,
+      1.0
+    ],
+    "min_height_m": 0.0,
+    "max_height_m": 26.0,
+    "p99_height_m": 23.0,
+    "image": "assets/chm_height.png",
+    "grid": "assets/chm_grid.json"
+  },
+  "reference": {
+    "path": "assets/reference_crowns.json",
+    "count": 283,
+    "partial_count": 23
+  },
+  "points": {
+    "path": "assets/points_sample.json",
+    "sample_size": 60000,
+    "source_point_count": 256724,
+    "origin": {
+      "x": 774176.5,
+      "y": 5162899.18,
+      "z": 304.34
+    },
+    "bounds_relative": {
+      "xmax": 75.0,
+      "ymax": 75.0,
+      "zmax": 26.47
+    }
+  },
+  "lessons": [
+    "LAS points preserve 3D canopy structure.",
+    "A CHM is a 2D height-surface abstraction derived from LiDAR.",
+    "Local maxima approximate treetops but can fail in dense or multi-peak crowns.",
+    "Reference crowns make detection and delineation errors measurable."
+  ]
+}
