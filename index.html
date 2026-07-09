@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="TreeSeg Lab — an interactive browser-based teaching workbench for individual tree crown (ITC) detection and delineation from airborne LiDAR data. CATCON 2026 submission.">
+  <title>TreeSeg Lab · ITC Teaching Workbench | CATCON 2026</title>
+  <link rel="stylesheet" href="src/styles.css?v=catcon2026">
+  <link rel="stylesheet" href="src/styles_v2.css?v=catcon2026">
+</head>
+<body>
+  <a class="skip-link" href="#app-main">Skip to module</a>
+  <div id="app" class="app-shell">
+    <aside class="side-nav" aria-label="Learning modules">
+      <div class="brand">
+        <div style="font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+                    font-size:10px;letter-spacing:.08em;text-transform:uppercase;
+                    color:#c0392b;margin-bottom:5px;line-height:1.4">
+          Computer Assisted Teaching Contest (CATCON)
+        </div>
+        <div class="brand-kicker">LiDAR Remote Sensing</div>
+        <div class="brand-title">TreeSeg Lab</div>
+        <div class="brand-subtitle">ITC detection and delineation</div>
+      </div>
+      <nav id="routeNav" class="route-nav"></nav>
+      <div class="side-note">
+        Static single-page teaching workbench.<br>
+        No installation required.
+      </div>
+    </aside>
+
+    <div class="workspace">
+      <header class="topbar">
+        <div>
+          <div id="routeEyebrow" class="route-eyebrow">Overview</div>
+          <h1 id="routeTitle">TreeSeg Lab</h1>
+        </div>
+      </header>
+      <main id="app-main" class="module-host" tabindex="-1"></main>
+    </div>
+  </div>
+
+  <!-- Pre-bundled JSON assets — enables full offline use without fetch() -->
+  <script src="assets/data_bundle.js"></script>
+  <script type="module">
+    import {routes, currentPath, routeByPath} from './src/router_v3.js?v=catcon2026';
+
+    const nav     = document.getElementById('routeNav');
+    const main    = document.getElementById('app-main');
+    const title   = document.getElementById('routeTitle');
+    const eyebrow = document.getElementById('routeEyebrow');
+    let cleanup   = null;
+
+    function renderNav(activePath){
+      nav.innerHTML = routes.map((route, index) => `
+        <a class="nav-link" href="#/${route.path}"
+           ${route.path === activePath ? 'aria-current="page"' : ''}>
+          <span class="nav-index">${String(index + 1).padStart(2, '0')}</span>
+          <span class="nav-copy">
+            <span class="nav-title">${route.label}</span>
+            <span class="nav-subtitle">${route.subtitle || ''}</span>
+          </span>
+        </a>`).join('');
+    }
+
+    async function renderRoute(){
+      const activePath = currentPath();
+      const route      = routeByPath(activePath);
+      if(cleanup){ cleanup(); cleanup = null; }
+      renderNav(route.path);
+      title.textContent   = route.title;
+      eyebrow.textContent = route.eyebrow;
+      main.innerHTML      = route.module.html();
+      main.focus({preventScroll: true});
+      if(route.module.init){
+        cleanup = await route.module.init(main);
+      }
+    }
+
+    window.addEventListener('hashchange', renderRoute);
+    renderRoute().catch(err => {
+      console.error(err);
+      main.innerHTML = `
+        <section class="panel pad">
+          <h2>Module failed to load</h2>
+          <p class="intro">${err.message}</p>
+        </section>`;
+    });
+  </script>
+</body>
+</html>
